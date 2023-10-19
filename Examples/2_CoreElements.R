@@ -118,6 +118,7 @@ res2
 
 # Externally-defined Function ---------------------------------------------------
 
+#IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
 source("3_ExternalFunctions.R")
 
 enhanced <- contrastEnhancement(value = 10, min = 5, max = 15)
@@ -126,7 +127,7 @@ enhanced
 
 # Load CSV file -----------------------------------------------------------
 
-
+#IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
 dataFromStudents <- read.csv("2023 - Survey - 1.csv")
 dataFromStudents$Shoe.Size..EU.
 hist(dataFromStudents$Shoe.Size..EU.)
