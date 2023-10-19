@@ -96,12 +96,17 @@ roundedPi
 
 # User-defined Function ---------------------------------------------------
 
+
 absDouble <- function(a){
   abs(2*a)
 }
 
 y <- absDouble(10)
 y
+
+
+# Externally-defined Function ---------------------------------------------------
+
 
 
 
