@@ -105,16 +105,33 @@ y <- absDouble(10)
 y
 
 
+divide <- function(a, b) {
+  z <-  a / b
+}
+
+res1 <- divide(100, 25)
+res1
+
+res2 <- divide(b = 25, a = 100)
+res2
+
+
 # Externally-defined Function ---------------------------------------------------
 
+source("3_ExternalFunctions.R")
+
+enhanced <- contrastEnhancement(value = 10, min = 5, max = 15)
+enhanced
 
 
+# Load CSV file -----------------------------------------------------------
 
 
+dataFromStudents <- read.csv("2023 - Survey - 1.csv")
+dataFromStudents$Shoe.Size..EU.
+hist(dataFromStudents$Shoe.Size..EU.)
 
-
-
-
+summary(dataFromStudents)
 
 
 
