@@ -7,6 +7,7 @@ This repository contains Unity samples used to learn core R (and useful packages
 ## Useful 
 - [Markdown](https://docs.github.com/en/enterprise-cloud@latest/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) in GitHub
 - Add emojis with [gitmoji](https://gitmoji.dev/) to your Git commits to improve readability
+- [Common documentation prefixes in R (e.g. TODO)](https://github.com/dokato/todor)
 
 ## Recommended Reading
 - [Tutorialspoint - R](https://www.tutorialspoint.com/r/index.htm)
@@ -17,8 +18,8 @@ This repository contains Unity samples used to learn core R (and useful packages
 
 
 ### To Do - Weeks 2, 3, 5
-- [x] Added a simple example (1_GraphingSomething.R) to show how to navigate around R Studio
+- [x] Added a simple example ([1_GraphingSomething.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/1_GraphingSomething.R)) to show how to navigate around R Studio
 
 ### To Do - Weeks 6
-- [ ] Discuss 4_UsingVector.R, 5_UsingDataframes, and 6_CommonPrefixes.R examples
+- [ ] Discuss [4_UsingVector.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/4_UsingVector.R), [5_UsingDataframes.Rmd](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/5_UsingDataframes.Rmd), and [6_CommonPrefixes.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/6_CommonPrefixes.R) examples
 - [ ] Introduce the pipe operator with 7_UsingPipeOperator.R
