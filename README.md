@@ -22,4 +22,4 @@ This repository contains samples code used to learn core R (and useful packages 
 
 ### To Do - Week 6
 - [ ] Discuss [4_UsingVector.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/4_UsingVector.R), [5_UsingDataframes.Rmd](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/5_UsingDataframes.Rmd), and [6_CommonPrefixes.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/6_CommonPrefixes.R) examples
-- [ ] Introduce the pipe operator with 7_UsingPipeOperator.R
+- [ ] Introduce the pipe operator with [7_UsingPipeOperator.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/7_UsingPipeOperator.R)
