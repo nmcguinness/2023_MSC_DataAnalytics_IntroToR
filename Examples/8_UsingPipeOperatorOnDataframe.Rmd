@@ -11,9 +11,6 @@ output:
 
 ---
 
-
-
-
 ```{r include=FALSE}
 # Automatically clear console 
 cat("\014")
