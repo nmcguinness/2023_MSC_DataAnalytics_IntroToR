@@ -17,9 +17,9 @@ This repository contains samples code used to learn core R (and useful packages 
 - [R Programming Reference](https://rpubs.com/uwaterloodatateam/r-programming-reference)
 
 
-### To Do - Weeks 2, 3, 5
+### To Do - Weeks 2, 3, ~~4~~, 5
 - [x] Added a simple example ([1_GraphingSomething.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/1_GraphingSomething.R)) to show how to navigate around R Studio
 
-### To Do - Weeks 6
+### To Do - Week 6
 - [ ] Discuss [4_UsingVector.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/4_UsingVector.R), [5_UsingDataframes.Rmd](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/5_UsingDataframes.Rmd), and [6_CommonPrefixes.R](https://github.com/nmcguinness/2023_MSC_DataAnalytics_IntroToR/blob/main/Examples/6_CommonPrefixes.R) examples
 - [ ] Introduce the pipe operator with 7_UsingPipeOperator.R
