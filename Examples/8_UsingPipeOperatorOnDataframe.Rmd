@@ -1,0 +1,104 @@
+---
+title: "Using the pipe operator (%>%)"
+subtitle: "To clean, validate, filter, and mutate a collection (i.e., vector, dataframe)"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    df_print: paged
+    code_folding: hide
+    theme: cerulean
+
+---
+
+
+
+
+```{r include=FALSE}
+# Automatically clear console 
+cat("\014")
+```
+
+
+
+```{r include=FALSE}
+# Load magrittr for %>% 
+if(!require("magrittr")) 
+  install.packages("magrittr")
+library(magrittr)
+
+# Load dplyr for mutate
+if(!require("dplyr")) 
+  install.packages("dplyr")
+library(dplyr)
+
+# Load knitr to allow us to print "pretty" tables
+if(!require("knitr"))
+   install.packages("knitr")
+library(knitr)
+```
+
+# Create a sample data frame (results from a user-survey on 6 AAA games)
+
+```{r}
+data <- data.frame(
+  GameID = 1:6,
+  Name = c("Assassin's Creed Valhalla", "Bioshock Infinite", 
+           "Civilisation IV", "Dark Souls III ", 
+           "Elder Scrolls V: Skyrim ", "Forza Horizon 4"),
+  Playability = c(8, 5, NA, 10, 2, 7),
+  Quality = c(9, 6, 8, 9, 2, 4),
+  Price = c(7, 4, 7, 8, 1, 6)
+)
+
+print("Original data...")
+kable(data)
+```
+
+# Remove N/A
+
+```{r}
+cleaned_data <- data %>%
+  dplyr::filter(!is.na(Playability) & !is.na(Quality) & !is.na(Price))  # Remove rows with missing values
+ 
+print("Remove N/A...")
+kable(cleaned_data)
+```
+
+# Remove N/A, filter
+
+```{r}
+cleaned_data <- data %>%
+  dplyr::filter(!is.na(Playability) & !is.na(Quality) & !is.na(Price)) %>%  # Remove rows with missing values
+  filter(Playability >= 3 & Quality >= 3 & Price >= 3)                   # Filter out responses where any rating is below 3
+  
+print("Remove N/A, filter...")
+kable(cleaned_data)
+```
+
+# Remove N/A, filter, calculate average  
+
+```{r}
+cleaned_data <- data %>%
+  dplyr::filter(!is.na(Playability) & !is.na(Quality) & !is.na(Price)) %>%  # Remove rows with missing values
+  filter(Playability >= 3 & Quality >= 3 & Price >= 3) %>%                  # Filter out responses where any rating is below 3
+  mutate(AverageRating = (Playability + Quality + Price) / 3)            # Calculate average rating for each response
+  
+print("Remove N/A, filter, calculate average...")
+kable(cleaned_data)
+```
+
+# Remove N/A, filter, calculate average, validate multi-vars within range
+
+```{r}
+cleaned_data <- data %>%
+  dplyr::filter(!is.na(Playability) & !is.na(Quality) & !is.na(Price)) %>%  # Remove rows with missing values
+  filter(Playability >= 3 & Quality >= 3 & Price >= 3) %>%                  # Filter out responses where any rating is below 3
+  mutate(AverageRating = (Playability + Quality + Price) / 3) %>%           # Calculate average rating for each response
+  filter(between(Playability, 1, 10) &
+           between(Quality, 1, 10) &
+           between(Price, 1, 10))                                           # Validate that all rating values are within the range 1 to 10
+
+print("Remove N/A, filter, calculate average, validate multi-vars within range...")
+kable(cleaned_data)
+```

@@ -1,36 +1,39 @@
+#' @title 2_CoreElements.R
+#' @description Data Anaytics introductory concepts
+#' @author NMCG
+#' @bugs None
+#' @keywords data types; output vars; operators; type checking; type coercion; in-built, user-defined, and external functions
+#' @seealso https://www.tutorialspoint.com/r/r_data_types.htm
+
+# Automatically clear console - the string literal "\014" sends a CTRL + L to the console to clear it
+cat("\014")
 
 # Data Types --------------------------------------------------------------
 
-# data types - see https://www.tutorialspoint.com/r/r_data_types.htm
-
-#integers
+# Integers
 year <- 2023
 
-#floating-points
+# Floating-points
 height <- 1.91
 
-# logical
-isRaining <- TRUE
-isFriday <- F
+# Logical
+is_raining <- TRUE
+is_friday <- F
 
-# character
+# Character
 module <- "Data Analytics"
 initials <- 'NMCG'
 
-# complex
+# Complex
 x <- 3i + 4
 
-#coerce a variable to be stored as an int
+# Coerce a variable to be stored as an int
 kids <- 4L
 
-
-# Print/Show Vars ---------------------------------------------------------
-
+# Print & Format Vars ---------------------------------------------------------
 
 print(module)
-module
-initials
-
+print(paste("The module ", module, "is taught by", initials))
 
 # Mathematical Operators --------------------------------------------------
 
@@ -39,12 +42,11 @@ b <- 12
 c <- a ^ b
 d <- 10*a + b/2.3
 
-#modulus
+# Modulus
 remainder <- 17%%3 # 1
 remainder
 
-theResult <- (a*2.5) + (6.8/(10.1 - b)); theResult
-
+the_result <- (a*2.5) + (6.8/(10.1 - b)); the_result
 
 # Type Checking (Useful cleaning/validating) -------------------------------
 
@@ -55,84 +57,99 @@ is.numeric('2.5')
 ages <- c(19, 23, 45, 61) #vector is a collection of instances of same data type
 is.vector(ages)
 
-
 # Type Coercion -----------------------------------------------------------
 
-#convert string age to a number
-ageAsNumeric <- as.numeric("32")
-ageAsNumeric
+# Convert string age to a number
+age_as_numeric <- as.numeric("32")
+age_as_numeric
 
-ageAsStr <- as.character(32)
-ageAsStr
-
+age_as_str <- as.character(32)
+age_as_str
 
 # Control Flow ------------------------------------------------------------
 
-#if, else
-
+# if, else
 
 # Loops -------------------------------------------------------------------
 
-#for, while
-
+# for, while
 
 # In-built functions ------------------------------------------------------
 
-#inbuilt functions (log10, log2, log, exp, abs) - see https://learnetutorials.com/r-programming/built-in-functions
+# Inbuilt functions (log10, log2, log, exp, abs) - see https://learnetutorials.com/r-programming/built-in-functions
 
-logTest1 = log10(1000)
-logTest2 = log2(64)
-logTest3 = log(1000, exp(1)) # loge
+log_test1 = log10(1000)
+log_test2 = log2(64)
+log_test3 = log(1000, exp(1)) # loge
 
-expTest1 = exp(1) #exp = e = 2.718
-powTest1 = 2^4
-sqrtTest = sqrt(25)
+exp_test1 = exp(1) #exp = e = 2.718
+pow_test1 = 2^4
+sqrt_test = sqrt(25)
 
-absTest1 = abs(-10.58)
-absTest2 = abs(-1E6) 
-roundedPi = round(pi, 3)
-roundedPi
-
+abs_test1 = abs(-10.58)
+abs_test2 = abs(-1E6) 
+rounded_pi = round(pi, 3)
+rounded_pi
 
 # User-defined Function ---------------------------------------------------
 
-
-absDouble <- function(a){
+AbsDouble <- function(a){
   abs(2*a)
 }
 
-y <- absDouble(10)
+y <- AbsDouble(10)
 y
 
-
-divide <- function(a, b) {
+Divide <- function(a, b) {
   z <-  a / b
 }
 
-res1 <- divide(100, 25)
+res1 <- Divide(100, 25)
 res1
 
-res2 <- divide(b = 25, a = 100)
+res2 <- Divide(b = 25, a = 100)
 res2
-
 
 # Externally-defined Function ---------------------------------------------------
 
-#IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
+# IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
 source("3_ExternalFunctions.R")
 
-enhanced <- contrastEnhancement(value = 10, min = 5, max = 15)
-enhanced
+# Pass literal values directly into the function
+stretched1 <- LinearContrastStretch(5, 0, 10, 20, 30)
+print(paste("Ex1 - Stretched value is", stretched1))
 
+# assign values using =
+x <- 5
+stretched2 <- LinearContrastStretch(value = x, min_val = 0, max_val = 10, new_min = 20, new_max = 30)
+print(paste("Ex2 - x is stretched from", x, "to", stretched2, "using LinearContrastStretch"))
+
+# Mix literals and assignment using =
+stretched3 <- LinearContrastStretch(5, min_val = 0, 10, 20, new_max = 30)
+print(paste("Ex3 - x is stretched from 5 to", stretched3, "using LinearContrastStretch"))
+
+# Assign values OUT OF ORDER using =
+x <- 5
+stretched4 <- LinearContrastStretch(new_max = 30, new_min = 20, value = x, min_val = 0, max_val = 10)
+print(paste("Ex4 - x is stretched from", x, "to", stretched4, "using LinearContrastStretch"))
+
+# Another example
+a <- -16
+b <- 2
+log_value1 <- LogAbs(a, b)
+print(paste("Ex5 - LogAbs(", a, ",", b, ") is", log_value1))
+
+# Notice how we are again passing arguments out of order
+log_value2 <- LogAbs(base = 2, x = -16)
+print(paste("Ex6 - LogAbs(-16, 2) is", log_value2))
 
 # Load CSV file -----------------------------------------------------------
 
-#IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
-dataFromStudents <- read.csv("2023 - Survey - 1.csv")
-dataFromStudents$Shoe.Size..EU.
-hist(dataFromStudents$Shoe.Size..EU.)
-
-summary(dataFromStudents)
+# IMPORTANT - dont forget to set your working directory (see Session/Set Working Directory/To Source File Location)
+student_data <- read.csv("Data/2023 - Survey - 1.csv")
+student_data$Shoe.Size..EU.
+hist(student_data$Shoe.Size..EU.)
+summary(student_data)
 
 
 
