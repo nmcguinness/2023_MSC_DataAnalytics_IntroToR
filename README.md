@@ -2,7 +2,7 @@
 Introductory R code used in the DAIE class
 
 ## Overview 
-This repository contains Unity samples used to learn core R (and useful packages like magrittr, dplyr, ggplot2) for this module.
+This repository contains samples code used to learn core R (and useful packages like magrittr, dplyr, ggplot2) for this module.
 
 ## Useful 
 - [Markdown](https://docs.github.com/en/enterprise-cloud@latest/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) in GitHub
