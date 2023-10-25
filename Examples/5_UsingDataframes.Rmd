@@ -119,8 +119,9 @@ kable(animation_df)
 
 ```{r}
 
+# Notice that the movies are OUT OF SEQUENCE - this is one of the clever aspects of the merge() function
 ratings_df <- data.frame(
-  Movie = c("Shrek", "Up", "Jungle Book", "Aladdin"),
+  Movie = c("Jungle Book", "Shrek",  "Aladdin", "Up"),
   IMDBRating = c(7.5, 8.3, 7.0, 8.0)
 )
 

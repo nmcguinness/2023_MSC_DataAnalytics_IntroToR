@@ -3487,7 +3487,7 @@ print(&quot;After calculating profitability ratio (Profit/100):&quot;)</code></p
 <div id="merging-dataframes" class="section level1">
 <h1>Merging dataframes</h1>
 <pre class="r"><code>ratings_df &lt;- data.frame(
-  Movie = c(&quot;Shrek&quot;, &quot;Up&quot;, &quot;Jungle Book&quot;, &quot;Aladdin&quot;),
+  Movie = c(&quot;Jungle Book&quot;, &quot;Shrek&quot;,  &quot;Aladdin&quot;, &quot;Up&quot;),
   IMDBRating = c(7.5, 8.3, 7.0, 8.0)
 )
 
@@ -3527,7 +3527,7 @@ print(&quot;After merging with ratings dataframe:&quot;)</code></pre>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
-<td align="right">8.0</td>
+<td align="right">7.0</td>
 </tr>
 <tr class="even">
 <td align="left">Jungle Book</td>
@@ -3537,7 +3537,7 @@ print(&quot;After merging with ratings dataframe:&quot;)</code></pre>
 <td align="right">550</td>
 <td align="right">370</td>
 <td align="right">3.7</td>
-<td align="right">7.0</td>
+<td align="right">7.5</td>
 </tr>
 <tr class="odd">
 <td align="left">Shrek</td>
@@ -3547,7 +3547,7 @@ print(&quot;After merging with ratings dataframe:&quot;)</code></pre>
 <td align="right">500</td>
 <td align="right">350</td>
 <td align="right">3.5</td>
-<td align="right">7.5</td>
+<td align="right">8.3</td>
 </tr>
 <tr class="even">
 <td align="left">Up</td>
@@ -3557,7 +3557,7 @@ print(&quot;After merging with ratings dataframe:&quot;)</code></pre>
 <td align="right">650</td>
 <td align="right">450</td>
 <td align="right">4.5</td>
-<td align="right">8.3</td>
+<td align="right">8.0</td>
 </tr>
 </tbody>
 </table>
@@ -3604,14 +3604,14 @@ print(&quot;Highly rated movies (IMDB Rating &gt;= 8.0):&quot;)</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="2%" />
-<col width="7%" />
-<col width="9%" />
+<col width="5%" />
+<col width="10%" />
 <col width="10%" />
 <col width="13%" />
 <col width="16%" />
 <col width="13%" />
-<col width="16%" />
-<col width="9%" />
+<col width="17%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3628,15 +3628,15 @@ print(&quot;Highly rated movies (IMDB Rating &gt;= 8.0):&quot;)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">1</td>
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">8.0</td>
+<td align="left">3</td>
+<td align="left">Shrek</td>
+<td align="left">John Doe</td>
+<td align="right">2020</td>
+<td align="right">150</td>
+<td align="right">500</td>
+<td align="right">350</td>
+<td align="right">3.5</td>
+<td align="right">8.3</td>
 </tr>
 <tr class="even">
 <td align="left">4</td>
@@ -3647,7 +3647,7 @@ print(&quot;Highly rated movies (IMDB Rating &gt;= 8.0):&quot;)</code></pre>
 <td align="right">650</td>
 <td align="right">450</td>
 <td align="right">4.5</td>
-<td align="right">8.3</td>
+<td align="right">8.0</td>
 </tr>
 </tbody>
 </table>
@@ -3692,7 +3692,7 @@ print(&quot;Budget in billions:&quot;)</code></pre>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
-<td align="right">8.0</td>
+<td align="right">7.0</td>
 <td align="right">0.21</td>
 </tr>
 <tr class="even">
@@ -3703,7 +3703,7 @@ print(&quot;Budget in billions:&quot;)</code></pre>
 <td align="right">550</td>
 <td align="right">370</td>
 <td align="right">3.7</td>
-<td align="right">7.0</td>
+<td align="right">7.5</td>
 <td align="right">0.18</td>
 </tr>
 <tr class="odd">
@@ -3714,7 +3714,7 @@ print(&quot;Budget in billions:&quot;)</code></pre>
 <td align="right">500</td>
 <td align="right">350</td>
 <td align="right">3.5</td>
-<td align="right">7.5</td>
+<td align="right">8.3</td>
 <td align="right">0.15</td>
 </tr>
 <tr class="even">
@@ -3725,7 +3725,7 @@ print(&quot;Budget in billions:&quot;)</code></pre>
 <td align="right">650</td>
 <td align="right">450</td>
 <td align="right">4.5</td>
-<td align="right">8.3</td>
+<td align="right">8.0</td>
 <td align="right">0.20</td>
 </tr>
 </tbody>
