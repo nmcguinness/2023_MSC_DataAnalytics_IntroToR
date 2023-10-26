@@ -154,6 +154,9 @@ student_data$Shoe.Size..EU.
 hist(student_data$Shoe.Size..EU.)
 summary(student_data)
 
+vec_height <- student_data$Height.cm.
+range(vec_height)
+
 
 
 
