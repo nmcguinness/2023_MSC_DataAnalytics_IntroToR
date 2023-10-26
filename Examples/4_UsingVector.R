@@ -10,6 +10,9 @@ cat("\014")
 
 # Instantiating a Vector ----------------------------------------------------------
 
+#  A numeric value for each level
+level_numbers <- 1:10
+
 # Player scores from ten rounds of a game
 player_scores <- c(150, 200, 180, 220, 170, 190, 210, 230, 200, 215)
 
@@ -20,6 +23,7 @@ levels <- c("Grassy Plains", "Misty Mountains", "Arid Desert", "Icy Tundra", "Vo
 checkpoints <- c(TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE)
 
 # Print vectors ----------------------------------------------------------
+print(level_numbers)
 print(player_scores)
 print(levels)
 print(checkpoints)
@@ -34,7 +38,7 @@ for(i in 1:length(levels))
 print(levels[7])  # seventh level
 print(player_scores[c(1, 6, 10)])  # scores from first, sixth, and tenth rounds
 
-# Subsetting --------------------------------------------------
+# Accessing values using [] and Subsetting --------------------------------------------------
 
 player_names <-  c('alan','bea','ciara', 'dave', 'erica') 
 

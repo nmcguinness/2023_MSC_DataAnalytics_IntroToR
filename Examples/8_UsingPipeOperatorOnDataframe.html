@@ -11,7 +11,7 @@
 
 
 
-<title>Creating, accessing, transforming, and manipulating dataframes</title>
+<title>Using the pipe operator (%&gt;%)</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -2836,1238 +2836,326 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Creating, accessing, transforming, and
-manipulating dataframes</h1>
+<h1 class="title toc-ignore">Using the pipe operator (%&gt;%)</h1>
+<h3 class="subtitle">To clean, validate, filter, and mutate a collection
+(i.e., vector, dataframe)</h3>
 
 </div>
 
 
-<pre class="r"><code># Load knitr to allow us to print &quot;pretty&quot; tables
-if(!require(&quot;knitr&quot;))
-   install.packages(&quot;knitr&quot;)</code></pre>
-<pre><code>## Loading required package: knitr</code></pre>
-<pre class="r"><code>library(knitr)</code></pre>
-<div id="creating-a-dataframe" class="section level1">
-<h1>Creating a dataframe</h1>
-<pre class="r"><code>animation_df &lt;- data.frame(
-  Movie = c(&quot;Shrek&quot;, &quot;Up&quot;, &quot;Jungle Book&quot;, &quot;Aladdin&quot;),
-  Director = c(&quot;John Doe&quot;, &quot;Jane Smith&quot;, &quot;Alice Brown&quot;, &quot;Bob White&quot;),
-  ReleaseYear = c(2020, 2021, 2019, 2022),
-  BudgetMillions = c(150, 200, 180, 210),
-  BoxOfficeMillions = c(500, 650, 550, NA)
+<div id="create-a-sample-data-frame-results-from-a-user-survey-on-6-aaa-games" class="section level1">
+<h1>Create a sample data frame (results from a user-survey on 6 AAA
+games)</h1>
+<pre class="r"><code>data &lt;- data.frame(
+  GameID = 1:6,
+  Name = c(&quot;Assassin&#39;s Creed Valhalla&quot;, &quot;Bioshock Infinite&quot;, 
+           &quot;Civilisation IV&quot;, &quot;Dark Souls III &quot;, 
+           &quot;Elder Scrolls V: Skyrim &quot;, &quot;Forza Horizon 4&quot;),
+  Playability = c(8, 5, NA, 10, 2, 7),
+  Quality = c(9, 6, 8, 9, 2, 4),
+  Price = c(7, 4, 7, 8, 1, 6)
 )
 
-print(&quot;Initial dataframe:&quot;)</code></pre>
-<pre><code>## [1] &quot;Initial dataframe:&quot;</code></pre>
-<pre class="r"><code>print(animation_df)</code></pre>
-<pre><code>##         Movie    Director ReleaseYear BudgetMillions BoxOfficeMillions
-## 1       Shrek    John Doe        2020            150               500
-## 2          Up  Jane Smith        2021            200               650
-## 3 Jungle Book Alice Brown        2019            180               550
-## 4     Aladdin   Bob White        2022            210                NA</code></pre>
-</div>
-<div id="accessing-elements-of-a-dataframe-and-printing-using-knitrkable" class="section level1">
-<h1>Accessing elements of a dataframe (and printing using
-Knitr::Kable)</h1>
-<pre class="r"><code>print(&quot;Accessing the &#39;Movie&#39; column:&quot;)</code></pre>
-<pre><code>## [1] &quot;Accessing the &#39;Movie&#39; column:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df$Movie)</code></pre>
+print(&quot;Original data...&quot;)</code></pre>
+<pre><code>## [1] &quot;Original data...&quot;</code></pre>
+<pre class="r"><code>kable(data)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th align="left">x</th>
+<th align="right">GameID</th>
+<th align="left">Name</th>
+<th align="right">Playability</th>
+<th align="right">Quality</th>
+<th align="right">Price</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Shrek</td>
+<td align="right">1</td>
+<td align="left">Assassin’s Creed Valhalla</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">7</td>
 </tr>
 <tr class="even">
-<td align="left">Up</td>
+<td align="right">2</td>
+<td align="left">Bioshock Infinite</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">4</td>
 </tr>
 <tr class="odd">
-<td align="left">Jungle Book</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>print(&quot;Accessing the first row:&quot;)</code></pre>
-<pre><code>## [1] &quot;Accessing the first row:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df[1,])</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="adding-and-removing-columns" class="section level1">
-<h1>Adding and removing columns</h1>
-<pre class="r"><code>animation_df$DurationMinutes &lt;- c(90, 100, 95, 105)
-print(&quot;After adding &#39;DurationMinutes&#39; column:&quot;)</code></pre>
-<pre><code>## [1] &quot;After adding &#39;DurationMinutes&#39; column:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
-<table>
-<colgroup>
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="17%" />
-<col width="21%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">DurationMinutes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">90</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">100</td>
-</tr>
-<tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">95</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
+<td align="right">3</td>
+<td align="left">Civilisation IV</td>
 <td align="right">NA</td>
-<td align="right">105</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>animation_df$DurationMinutes &lt;- NULL
-print(&quot;After removing &#39;DurationMinutes&#39; column:&quot;)</code></pre>
-<pre><code>## [1] &quot;After removing &#39;DurationMinutes&#39; column:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
-<table>
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="17%" />
-<col width="21%" />
-<col width="26%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
+<td align="right">8</td>
+<td align="right">7</td>
 </tr>
 <tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
+<td align="right">4</td>
+<td align="left">Dark Souls III</td>
+<td align="right">10</td>
+<td align="right">9</td>
+<td align="right">8</td>
 </tr>
 <tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
+<td align="right">5</td>
+<td align="left">Elder Scrolls V: Skyrim</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>kable(animation_df, &quot;html&quot;, caption = &quot;The table with a column removed&quot;) </code></pre>
-<table>
-<caption>
-The table with a column removed
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Movie
-</th>
-<th style="text-align:left;">
-Director
-</th>
-<th style="text-align:right;">
-ReleaseYear
-</th>
-<th style="text-align:right;">
-BudgetMillions
-</th>
-<th style="text-align:right;">
-BoxOfficeMillions
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Shrek
-</td>
-<td style="text-align:left;">
-John Doe
-</td>
-<td style="text-align:right;">
-2020
-</td>
-<td style="text-align:right;">
-150
-</td>
-<td style="text-align:right;">
-500
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Up
-</td>
-<td style="text-align:left;">
-Jane Smith
-</td>
-<td style="text-align:right;">
-2021
-</td>
-<td style="text-align:right;">
-200
-</td>
-<td style="text-align:right;">
-650
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Jungle Book
-</td>
-<td style="text-align:left;">
-Alice Brown
-</td>
-<td style="text-align:right;">
-2019
-</td>
-<td style="text-align:right;">
-180
-</td>
-<td style="text-align:right;">
-550
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Aladdin
-</td>
-<td style="text-align:left;">
-Bob White
-</td>
-<td style="text-align:right;">
-2022
-</td>
-<td style="text-align:right;">
-210
-</td>
-<td style="text-align:right;">
-NA
-</td>
+<td align="right">6</td>
+<td align="left">Forza Horizon 4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="adding-and-removing-rows" class="section level1">
-<h1>Adding and removing rows</h1>
-<pre class="r"><code>new_movie &lt;- data.frame(Movie=&quot;Virtual Voyage&quot;, Director=&quot;Gary Green&quot;, ReleaseYear=2023, BudgetMillions=220, BoxOfficeMillions=NA)
-animation_df &lt;- rbind(animation_df, new_movie)
-print(&quot;After adding a new movie:&quot;)</code></pre>
-<pre><code>## [1] &quot;After adding a new movie:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
+<div id="remove-na" class="section level1">
+<h1>Remove N/A</h1>
+<pre class="r"><code>cleaned_data &lt;- data %&gt;%
+  dplyr::filter(!is.na(Playability) &amp; !is.na(Quality) &amp; !is.na(Price))  # Remove rows with missing values
+ 
+print(&quot;Remove N/A...&quot;)</code></pre>
+<pre><code>## [1] &quot;Remove N/A...&quot;</code></pre>
+<pre class="r"><code>kable(cleaned_data)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">GameID</th>
+<th align="left">Name</th>
+<th align="right">Playability</th>
+<th align="right">Quality</th>
+<th align="right">Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Assassin’s Creed Valhalla</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Bioshock Infinite</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Dark Souls III</td>
+<td align="right">10</td>
+<td align="right">9</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="left">Elder Scrolls V: Skyrim</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="left">Forza Horizon 4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="remove-na-filter" class="section level1">
+<h1>Remove N/A, filter</h1>
+<pre class="r"><code>cleaned_data &lt;- data %&gt;%
+  dplyr::filter(!is.na(Playability) &amp; !is.na(Quality) &amp; !is.na(Price)) %&gt;%  # Remove rows with missing values
+  filter(Playability &gt;= 3 &amp; Quality &gt;= 3 &amp; Price &gt;= 3)                   # Filter out responses where any rating is below 3
+  
+print(&quot;Remove N/A, filter...&quot;)</code></pre>
+<pre><code>## [1] &quot;Remove N/A, filter...&quot;</code></pre>
+<pre class="r"><code>kable(cleaned_data)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">GameID</th>
+<th align="left">Name</th>
+<th align="right">Playability</th>
+<th align="right">Quality</th>
+<th align="right">Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Assassin’s Creed Valhalla</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Bioshock Infinite</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="left">Dark Souls III</td>
+<td align="right">10</td>
+<td align="right">9</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Forza Horizon 4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="remove-na-filter-calculate-average" class="section level1">
+<h1>Remove N/A, filter, calculate average</h1>
+<pre class="r"><code>cleaned_data &lt;- data %&gt;%
+  dplyr::filter(!is.na(Playability) &amp; !is.na(Quality) &amp; !is.na(Price)) %&gt;%  # Remove rows with missing values
+  filter(Playability &gt;= 3 &amp; Quality &gt;= 3 &amp; Price &gt;= 3) %&gt;%                  # Filter out responses where any rating is below 3
+  mutate(AverageRating = (Playability + Quality + Price) / 3)            # Calculate average rating for each response
+  
+print(&quot;Remove N/A, filter, calculate average...&quot;)</code></pre>
+<pre><code>## [1] &quot;Remove N/A, filter, calculate average...&quot;</code></pre>
+<pre class="r"><code>kable(cleaned_data)</code></pre>
 <table>
 <colgroup>
-<col width="20%" />
+<col width="9%" />
+<col width="35%" />
 <col width="16%" />
-<col width="16%" />
-<col width="20%" />
-<col width="25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-</tr>
-<tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">Virtual Voyage</td>
-<td align="left">Gary Green</td>
-<td align="right">2023</td>
-<td align="right">220</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>animation_df &lt;- animation_df[-5,]
-print(&quot;After removing the last movie:&quot;)</code></pre>
-<pre><code>## [1] &quot;After removing the last movie:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
-<table>
-<colgroup>
-<col width="17%" />
-<col width="17%" />
-<col width="17%" />
-<col width="21%" />
-<col width="26%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-</tr>
-<tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="basic-operations-on-dataframe-columns" class="section level1">
-<h1>Basic operations on dataframe columns</h1>
-<pre class="r"><code>animation_df$ProfitMillions &lt;- animation_df$BoxOfficeMillions - animation_df$BudgetMillions
-print(&quot;After calculating profit for each movie:&quot;)</code></pre>
-<pre><code>## [1] &quot;After calculating profit for each movie:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
-<table>
-<colgroup>
-<col width="14%" />
-<col width="14%" />
-<col width="14%" />
-<col width="17%" />
-<col width="21%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-</tr>
-<tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="filtering-rows-based-on-conditions" class="section level1">
-<h1>Filtering rows based on conditions</h1>
-<pre class="r"><code>movies_after_2020 &lt;- animation_df[animation_df$ReleaseYear &gt; 2020,]
-print(&quot;Movies released after 2020:&quot;)</code></pre>
-<pre><code>## [1] &quot;Movies released after 2020:&quot;</code></pre>
-<pre class="r"><code>kable(movies_after_2020)</code></pre>
-<table>
-<colgroup>
-<col width="3%" />
-<col width="9%" />
-<col width="13%" />
-<col width="14%" />
-<col width="18%" />
-<col width="21%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="sorting-a-dataframe" class="section level1">
-<h1>Sorting a dataframe</h1>
-<pre class="r"><code>sorted_by_profit &lt;- animation_df[order(animation_df$ProfitMillions, decreasing = TRUE), ]
-print(&quot;Movies sorted by profit in descending order:&quot;)</code></pre>
-<pre><code>## [1] &quot;Movies sorted by profit in descending order:&quot;</code></pre>
-<pre class="r"><code>kable(sorted_by_profit)</code></pre>
-<table>
-<colgroup>
-<col width="3%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="17%" />
-<col width="20%" />
-<col width="17%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2</td>
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-</tr>
-<tr class="even">
-<td align="left">3</td>
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-</tr>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="applying-a-function-to-dataframe-columns" class="section level1">
-<h1>Applying a function to dataframe columns</h1>
-<pre class="r"><code>animation_df$ProfitabilityRatio &lt;- sapply(animation_df$ProfitMillions, function(x) if(!is.na(x)) x/100 else NA)
-print(&quot;After calculating profitability ratio (Profit/100):&quot;)</code></pre>
-<pre><code>## [1] &quot;After calculating profitability ratio (Profit/100):&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
-<table>
-<colgroup>
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="14%" />
-<col width="17%" />
-<col width="14%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
-</tr>
-<tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-<td align="right">3.7</td>
-</tr>
-<tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="merging-dataframes" class="section level1">
-<h1>Merging dataframes</h1>
-<pre class="r"><code># Notice that the movies are OUT OF SEQUENCE - this is one of the clever aspects of the merge() function
-ratings_df &lt;- data.frame(
-  Movie = c(&quot;Jungle Book&quot;, &quot;Shrek&quot;,  &quot;Aladdin&quot;, &quot;Up&quot;),
-  IMDBRating = c(7.5, 8.3, 7.0, 8.0)
-)
-
-merged_df &lt;- merge(animation_df, ratings_df, by=&quot;Movie&quot;)
-print(&quot;After merging with ratings dataframe:&quot;)</code></pre>
-<pre><code>## [1] &quot;After merging with ratings dataframe:&quot;</code></pre>
-<pre class="r"><code>kable(merged_df)</code></pre>
-<table style="width:100%;">
-<colgroup>
 <col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="13%" />
-<col width="15%" />
-<col width="13%" />
-<col width="16%" />
-<col width="9%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-<th align="right">IMDBRating</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">7.0</td>
-</tr>
-<tr class="even">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-<td align="right">3.7</td>
-<td align="right">7.5</td>
-</tr>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
-<td align="right">8.3</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
-<td align="right">8.0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="aggregating-data-using-aggregate" class="section level1">
-<h1>Aggregating data using aggregate()</h1>
-<pre class="r"><code>avg_budget_by_year &lt;- aggregate(BudgetMillions ~ ReleaseYear, data=animation_df, FUN=mean)
-print(&quot;Average budget by release year:&quot;)</code></pre>
-<pre><code>## [1] &quot;Average budget by release year:&quot;</code></pre>
-<pre class="r"><code>kable(avg_budget_by_year)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">2019</td>
-<td align="right">180</td>
-</tr>
-<tr class="even">
-<td align="right">2020</td>
-<td align="right">150</td>
-</tr>
-<tr class="odd">
-<td align="right">2021</td>
-<td align="right">200</td>
-</tr>
-<tr class="even">
-<td align="right">2022</td>
-<td align="right">210</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="using-subset-for-filtering" class="section level1">
-<h1>Using subset() for filtering</h1>
-<pre class="r"><code>high_rated_movies &lt;- subset(merged_df, IMDBRating &gt;= 8.0)
-print(&quot;Highly rated movies (IMDB Rating &gt;= 8.0):&quot;)</code></pre>
-<pre><code>## [1] &quot;Highly rated movies (IMDB Rating &gt;= 8.0):&quot;</code></pre>
-<pre class="r"><code>kable(high_rated_movies)</code></pre>
-<table style="width:100%;">
-<colgroup>
-<col width="2%" />
-<col width="5%" />
-<col width="10%" />
-<col width="10%" />
-<col width="13%" />
-<col width="16%" />
-<col width="13%" />
-<col width="17%" />
-<col width="10%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-<th align="right">IMDBRating</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
-<td align="right">8.3</td>
-</tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
-<td align="right">8.0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="using-transform-for-modifying-columns" class="section level1">
-<h1>Using transform() for modifying columns</h1>
-<pre class="r"><code>merged_df &lt;- transform(merged_df, BudgetInBillions = BudgetMillions / 1000)
-print(&quot;Budget in billions:&quot;)</code></pre>
-<pre><code>## [1] &quot;Budget in billions:&quot;</code></pre>
-<pre class="r"><code>kable(merged_df)</code></pre>
-<table>
-<colgroup>
-<col width="9%" />
-<col width="9%" />
-<col width="9%" />
-<col width="11%" />
-<col width="13%" />
-<col width="11%" />
-<col width="14%" />
 <col width="8%" />
-<col width="12%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-<th align="right">IMDBRating</th>
-<th align="right">BudgetInBillions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">7.0</td>
-<td align="right">0.21</td>
-</tr>
-<tr class="even">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-<td align="right">3.7</td>
-<td align="right">7.5</td>
-<td align="right">0.18</td>
-</tr>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
-<td align="right">8.3</td>
-<td align="right">0.15</td>
-</tr>
-<tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
-<td align="right">8.0</td>
-<td align="right">0.20</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="finding-unique-values-with-unique" class="section level1">
-<h1>Finding unique values with unique()</h1>
-<pre class="r"><code>unique_directors &lt;- unique(animation_df$Director)
-print(&quot;Unique directors in the dataframe:&quot;)</code></pre>
-<pre><code>## [1] &quot;Unique directors in the dataframe:&quot;</code></pre>
-<pre class="r"><code>kable(unique_directors)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">John Doe</td>
-</tr>
-<tr class="even">
-<td align="left">Jane Smith</td>
-</tr>
-<tr class="odd">
-<td align="left">Alice Brown</td>
-</tr>
-<tr class="even">
-<td align="left">Bob White</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="getting-summary-statistics-with-summary" class="section level1">
-<h1>Getting summary statistics with summary()</h1>
-<pre class="r"><code>print(&quot;Summary statistics:&quot;)</code></pre>
-<pre><code>## [1] &quot;Summary statistics:&quot;</code></pre>
-<pre class="r"><code>print(summary(animation_df))</code></pre>
-<pre><code>##     Movie             Director          ReleaseYear   BudgetMillions 
-##  Length:4           Length:4           Min.   :2019   Min.   :150.0  
-##  Class :character   Class :character   1st Qu.:2020   1st Qu.:172.5  
-##  Mode  :character   Mode  :character   Median :2020   Median :190.0  
-##                                        Mean   :2020   Mean   :185.0  
-##                                        3rd Qu.:2021   3rd Qu.:202.5  
-##                                        Max.   :2022   Max.   :210.0  
-##                                                                      
-##  BoxOfficeMillions ProfitMillions ProfitabilityRatio
-##  Min.   :500.0     Min.   :350    Min.   :3.5       
-##  1st Qu.:525.0     1st Qu.:360    1st Qu.:3.6       
-##  Median :550.0     Median :370    Median :3.7       
-##  Mean   :566.7     Mean   :390    Mean   :3.9       
-##  3rd Qu.:600.0     3rd Qu.:410    3rd Qu.:4.1       
-##  Max.   :650.0     Max.   :450    Max.   :4.5       
-##  NA&#39;s   :1         NA&#39;s   :1      NA&#39;s   :1</code></pre>
-</div>
-<div id="handling-missing-values-with-na.omit-and-is.na" class="section level1">
-<h1>Handling missing values with na.omit() and is.na()</h1>
-<pre class="r"><code>print(&quot;Movies with missing box office data:&quot;)</code></pre>
-<pre><code>## [1] &quot;Movies with missing box office data:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df[is.na(animation_df$BoxOfficeMillions),])</code></pre>
-<table>
-<colgroup>
-<col width="3%" />
-<col width="8%" />
-<col width="10%" />
-<col width="12%" />
-<col width="15%" />
-<col width="18%" />
-<col width="15%" />
 <col width="19%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"></th>
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
+<th align="right">GameID</th>
+<th align="left">Name</th>
+<th align="right">Playability</th>
+<th align="right">Quality</th>
+<th align="right">Price</th>
+<th align="right">AverageRating</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">4</td>
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>cleaned_df &lt;- na.omit(animation_df)
-print(&quot;Dataframe after omitting rows with missing values:&quot;)</code></pre>
-<pre><code>## [1] &quot;Dataframe after omitting rows with missing values:&quot;</code></pre>
-<pre class="r"><code>kable(cleaned_df)</code></pre>
-<table>
-<colgroup>
-<col width="11%" />
-<col width="11%" />
-<col width="11%" />
-<col width="14%" />
-<col width="17%" />
-<col width="14%" />
-<col width="18%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
+<td align="right">1</td>
+<td align="left">Assassin’s Creed Valhalla</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">7</td>
+<td align="right">8.000000</td>
 </tr>
 <tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
+<td align="right">2</td>
+<td align="left">Bioshock Infinite</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">5.000000</td>
 </tr>
 <tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-<td align="right">3.7</td>
+<td align="right">4</td>
+<td align="left">Dark Souls III</td>
+<td align="right">10</td>
+<td align="right">9</td>
+<td align="right">8</td>
+<td align="right">9.000000</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Forza Horizon 4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">5.666667</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="finding-column-wise-maximums-and-minimums" class="section level1">
-<h1>Finding column-wise maximums and minimums</h1>
-<pre class="r"><code>max_budget &lt;- max(animation_df$BudgetMillions, na.rm = TRUE)
-min_budget &lt;- min(animation_df$BudgetMillions, na.rm = TRUE)
-print(paste(&quot;Max Budget:&quot;, max_budget))</code></pre>
-<pre><code>## [1] &quot;Max Budget: 210&quot;</code></pre>
-<pre class="r"><code>print(paste(&quot;Min Budget:&quot;, min_budget))</code></pre>
-<pre><code>## [1] &quot;Min Budget: 150&quot;</code></pre>
-</div>
-<div id="using-duplicated-to-find-duplicate-rows" class="section level1">
-<h1>Using duplicated() to find duplicate rows</h1>
-<pre class="r"><code>animation_df$duplicated_row &lt;- duplicated(animation_df)
-print(&quot;Dataframe with duplicated row information:&quot;)</code></pre>
-<pre><code>## [1] &quot;Dataframe with duplicated row information:&quot;</code></pre>
-<pre class="r"><code>kable(animation_df)</code></pre>
+<div id="remove-na-filter-calculate-average-validate-multi-vars-within-range" class="section level1">
+<h1>Remove N/A, filter, calculate average, validate multi-vars within
+range</h1>
+<pre class="r"><code>cleaned_data &lt;- data %&gt;%
+  dplyr::filter(!is.na(Playability) &amp; !is.na(Quality) &amp; !is.na(Price)) %&gt;%  # Remove rows with missing values
+  filter(Playability &gt;= 3 &amp; Quality &gt;= 3 &amp; Price &gt;= 3) %&gt;%                  # Filter out responses where any rating is below 3
+  mutate(AverageRating = (Playability + Quality + Price) / 3) %&gt;%           # Calculate average rating for each response
+  filter(between(Playability, 1, 10) &amp;
+           between(Quality, 1, 10) &amp;
+           between(Price, 1, 10))                                           # Validate that all rating values are within the range 1 to 10
+
+print(&quot;Remove N/A, filter, calculate average, validate multi-vars within range...&quot;)</code></pre>
+<pre><code>## [1] &quot;Remove N/A, filter, calculate average, validate multi-vars within range...&quot;</code></pre>
+<pre class="r"><code>kable(cleaned_data)</code></pre>
 <table>
 <colgroup>
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="12%" />
-<col width="15%" />
-<col width="12%" />
+<col width="9%" />
+<col width="35%" />
 <col width="16%" />
-<col width="12%" />
+<col width="10%" />
+<col width="8%" />
+<col width="19%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Movie</th>
-<th align="left">Director</th>
-<th align="right">ReleaseYear</th>
-<th align="right">BudgetMillions</th>
-<th align="right">BoxOfficeMillions</th>
-<th align="right">ProfitMillions</th>
-<th align="right">ProfitabilityRatio</th>
-<th align="left">duplicated_row</th>
+<th align="right">GameID</th>
+<th align="left">Name</th>
+<th align="right">Playability</th>
+<th align="right">Quality</th>
+<th align="right">Price</th>
+<th align="right">AverageRating</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Shrek</td>
-<td align="left">John Doe</td>
-<td align="right">2020</td>
-<td align="right">150</td>
-<td align="right">500</td>
-<td align="right">350</td>
-<td align="right">3.5</td>
-<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="left">Assassin’s Creed Valhalla</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">7</td>
+<td align="right">8.000000</td>
 </tr>
 <tr class="even">
-<td align="left">Up</td>
-<td align="left">Jane Smith</td>
-<td align="right">2021</td>
-<td align="right">200</td>
-<td align="right">650</td>
-<td align="right">450</td>
-<td align="right">4.5</td>
-<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">Bioshock Infinite</td>
+<td align="right">5</td>
+<td align="right">6</td>
+<td align="right">4</td>
+<td align="right">5.000000</td>
 </tr>
 <tr class="odd">
-<td align="left">Jungle Book</td>
-<td align="left">Alice Brown</td>
-<td align="right">2019</td>
-<td align="right">180</td>
-<td align="right">550</td>
-<td align="right">370</td>
-<td align="right">3.7</td>
-<td align="left">FALSE</td>
+<td align="right">4</td>
+<td align="left">Dark Souls III</td>
+<td align="right">10</td>
+<td align="right">9</td>
+<td align="right">8</td>
+<td align="right">9.000000</td>
 </tr>
 <tr class="even">
-<td align="left">Aladdin</td>
-<td align="left">Bob White</td>
-<td align="right">2022</td>
-<td align="right">210</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">FALSE</td>
+<td align="right">6</td>
+<td align="left">Forza Horizon 4</td>
+<td align="right">7</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">5.666667</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="using-t-to-transpose-the-dataframe" class="section level1">
-<h1>Using t() to transpose the dataframe</h1>
-<pre class="r"><code>transposed_df &lt;- as.data.frame(t(animation_df[1, -ncol(animation_df)])) # Transpose the first row (excluding the &#39;duplicated_row&#39; column)
-print(&quot;Transposed first row:&quot;)</code></pre>
-<pre><code>## [1] &quot;Transposed first row:&quot;</code></pre>
-<pre class="r"><code>kable(transposed_df)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">1</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Movie</td>
-<td align="left">Shrek</td>
-</tr>
-<tr class="even">
-<td align="left">Director</td>
-<td align="left">John Doe</td>
-</tr>
-<tr class="odd">
-<td align="left">ReleaseYear</td>
-<td align="left">2020</td>
-</tr>
-<tr class="even">
-<td align="left">BudgetMillions</td>
-<td align="left">150</td>
-</tr>
-<tr class="odd">
-<td align="left">BoxOfficeMillions</td>
-<td align="left">500</td>
-</tr>
-<tr class="even">
-<td align="left">ProfitMillions</td>
-<td align="left">350</td>
-</tr>
-<tr class="odd">
-<td align="left">ProfitabilityRatio</td>
-<td align="left">3.5</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="group-wise-operations-using-tapply" class="section level1">
-<h1>Group-wise operations using tapply()</h1>
-<pre class="r"><code>avg_budget_by_year &lt;- tapply(animation_df$BudgetMillions, animation_df$ReleaseYear, mean)
-print(&quot;Average budget by release year using tapply():&quot;)</code></pre>
-<pre><code>## [1] &quot;Average budget by release year using tapply():&quot;</code></pre>
-<pre class="r"><code>kable(avg_budget_by_year)</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">x</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2019</td>
-<td align="right">180</td>
-</tr>
-<tr class="even">
-<td align="left">2020</td>
-<td align="right">150</td>
-</tr>
-<tr class="odd">
-<td align="left">2021</td>
-<td align="right">200</td>
-</tr>
-<tr class="even">
-<td align="left">2022</td>
-<td align="right">210</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="using-split-to-split-data-by-factors" class="section level1">
-<h1>Using split() to split data by factors</h1>
-<pre class="r"><code>split_by_year &lt;- split(animation_df, animation_df$ReleaseYear)
-print(&quot;Dataframe split by release year:&quot;)</code></pre>
-<pre><code>## [1] &quot;Dataframe split by release year:&quot;</code></pre>
-<pre class="r"><code>print(split_by_year)</code></pre>
-<pre><code>## $`2019`
-##         Movie    Director ReleaseYear BudgetMillions BoxOfficeMillions
-## 3 Jungle Book Alice Brown        2019            180               550
-##   ProfitMillions ProfitabilityRatio duplicated_row
-## 3            370                3.7          FALSE
-## 
-## $`2020`
-##   Movie Director ReleaseYear BudgetMillions BoxOfficeMillions ProfitMillions
-## 1 Shrek John Doe        2020            150               500            350
-##   ProfitabilityRatio duplicated_row
-## 1                3.5          FALSE
-## 
-## $`2021`
-##   Movie   Director ReleaseYear BudgetMillions BoxOfficeMillions ProfitMillions
-## 2    Up Jane Smith        2021            200               650            450
-##   ProfitabilityRatio duplicated_row
-## 2                4.5          FALSE
-## 
-## $`2022`
-##     Movie  Director ReleaseYear BudgetMillions BoxOfficeMillions ProfitMillions
-## 4 Aladdin Bob White        2022            210                NA             NA
-##   ProfitabilityRatio duplicated_row
-## 4                 NA          FALSE</code></pre>
 </div>
 
 
