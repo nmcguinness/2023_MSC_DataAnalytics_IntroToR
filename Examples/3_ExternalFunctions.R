@@ -15,6 +15,8 @@
 #' @return Numeric value stretched to new user-specficied range (new_min->new_max)
 LinearContrastStretch <- function(value, min_val, max_val, new_min, new_max) {
   stretched_value <- ((value - min_val) / (max_val - min_val) * (new_max - new_min)) + new_min
+  
+  return (stretched_value)
 }
 
 # LogAbs ------------------------------------------------------------------
@@ -26,6 +28,11 @@ LinearContrastStretch <- function(value, min_val, max_val, new_min, new_max) {
 LogAbs <- function(x, base){  
   #note - if i want to use return keyword I need to wrap the expression in ()
   return (log(abs(x), base))
+}
+
+
+Add <- function(a, b) {
+  x <- a + b
 }
 
 

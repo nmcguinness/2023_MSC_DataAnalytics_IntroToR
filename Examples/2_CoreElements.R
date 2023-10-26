@@ -121,16 +121,19 @@ print(paste("Ex1 - Stretched value is", stretched1))
 
 # assign values using =
 x <- 5
-stretched2 <- LinearContrastStretch(value = x, min_val = 0, max_val = 10, new_min = 20, new_max = 30)
+stretched2 <- LinearContrastStretch(value = x, min_val = 0, 
+                                    max_val = 10, new_min = 20, new_max = 30)
 print(paste("Ex2 - x is stretched from", x, "to", stretched2, "using LinearContrastStretch"))
 
 # Mix literals and assignment using =
-stretched3 <- LinearContrastStretch(5, min_val = 0, 10, 20, new_max = 30)
+stretched3 <- LinearContrastStretch(5, min_val = 0, 
+                                    10, 20, new_max = 30)
 print(paste("Ex3 - x is stretched from 5 to", stretched3, "using LinearContrastStretch"))
 
 # Assign values OUT OF ORDER using =
 x <- 5
-stretched4 <- LinearContrastStretch(new_max = 30, new_min = 20, value = x, min_val = 0, max_val = 10)
+stretched4 <- LinearContrastStretch(new_max = 30, new_min = 20, 
+                                    value = x, min_val = 0, max_val = 10)
 print(paste("Ex4 - x is stretched from", x, "to", stretched4, "using LinearContrastStretch"))
 
 # Another example

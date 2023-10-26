@@ -30,6 +30,7 @@ print(checkpoints)
 
 for(i in 1:length(levels))
 {
+ # print(i)
   print(levels[i])
 }
 
@@ -118,9 +119,14 @@ std_dev <- sd(player_scores)
 print(paste("Standard deviation of player scores:", std_dev))
 
 # Quantiles of scores
-quantiles <- quantile(player_scores)
+quantiles <- quantile(player_scores, 0.75)
 print("Quantiles of player scores:")
 print(quantiles)
+
+iqr <- quantile(player_scores, 0.75) - quantile(player_scores, 0.5)
+print(iqr)
+
+boxplot(player_scores)
 
 # Sequences ----------------------------------------------------------
 
@@ -142,10 +148,13 @@ print(life_counts)
 repeated_levels <- rep(levels, each=2)  # Each level name is repeated twice
 print(repeated_levels)
 
+job_split <- rep(c("job", "no job"), each = c(35, 13))
+job_split
+
 # Filtering using logical conditions ----------------------------------------------------------
 
-# Get scores greater than 200
-high_scores <- player_scores[player_scores > 200]
+# Get scores greater than 200 and odd
+high_scores <- player_scores[player_scores > 200 & player_scores%%2 == 1]
 print(high_scores)
 
 # Get levels that do not have a checkpoint reached
@@ -153,13 +162,16 @@ unreached_levels <- levels[!checkpoints]
 print(unreached_levels)
 
 # Filter levels that contain the word "Dark"
-dark_levels <- levels[grep("Dark", levels)]
+dark_levels <- levels[grep("un", levels)]
 print(dark_levels)
+
+# position in vector where we find matches
+print(grep("un", levels))
 
 # Checking conditions on vectors ----------------------------------------------------------
 
 # Check if all player_scores are above 100
-all_above_100 <- all(player_scores > 100)
+all_above_100 <- all((player_scores > 100))
 print(paste("Are all scores above 100?", all_above_100))
 
 # Check if any player_scores is above 220
@@ -169,7 +181,8 @@ print(paste("Is any score above 220?", any_above_220))
 # Applying a function over a vector using `sapply` ----------------------------------------------------------
 
 # Calculate the score as a percentage of the maximum score for each round
-percentage_scores <- sapply(player_scores, function(score) (score / max(player_scores)) * 100)
+percentage_scores <- sapply(player_scores, 
+             function(score) (score / max(player_scores)) * 100)
 print("Percentage scores:")
 print(percentage_scores)
 
@@ -214,3 +227,6 @@ print(common_levels)
 remaining_levels <- setdiff(completed_levels, yet_to_complete_levels)
 print("Levels completed but not in 'yet to complete' list:")
 print(remaining_levels)
+
+sum_set_diff <- union(setdiff(completed_levels, yet_to_complete_levels),
+      setdiff(yet_to_complete_levels, completed_levels))
