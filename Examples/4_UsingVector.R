@@ -5,6 +5,8 @@
 #' @keywords vector, subset, sort, sample, element-wise operations
 #' @seealso https://www.tutorialspoint.com/r/r_vectors.htm
 
+
+
 # Automatically clear console - the string literal "\014" sends a CTRL + L to the console to clear it
 cat("\014")
 

@@ -16,6 +16,11 @@ library(magrittr)
 
 # Numeric - Arithmetic operations on numeric data -----------------------
 
+
+
+
+
+
 age <- 36
 mean_age <- 32
 
