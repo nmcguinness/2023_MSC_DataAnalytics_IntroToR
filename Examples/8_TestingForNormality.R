@@ -3,29 +3,64 @@
 #' @author NMCG
 #' @bugs None
 #' @keywords histogram, qqplot, Shapiro-Wilk
-#' @seealso https://www.r-bloggers.com/2019/08/shapiro-wilk-test-for-normality-in-r/
+#' @seealso https://www.statology.org/test-for-normality-in-r/
+#' @seealso https://www.datamentor.io/r-programming/if-else-statement
+#' @seealso https://www.statisticshowto.com/q-q-plots/
 
-set.seed(Sys.time())
-N <- 100
+cat("\014")
+
+# Set descriptive statistics for our vector of high scores
+N <- 200
 mn <- 210
 stdev <- 20
-# 99% of Tetris players are in the range [150, 270]
-high_scores <- rnorm(N, mean = mn, sd = stdev)
-#high_scores <- rnorm(N, 100, 20)
 
-high_scores
+# Randomize the high scores using system time
+set.seed(Sys.time())
+
+# Generate a random Normal distribution of high scores with 99% of players in the range [150, 270] (i.e. 6 sigma or -3xSD on left and +3xSD on right of the mean)
+high_scores <-  rnorm(N, mean = mn, sd = std_dev)
+
+# Try using an Exponential distribution instead of a random normal distribution (see that Shapiro-Wilk no longer reports normality)
+# high_scores <- rexp(N, rate = 0.1)
+
+# Try using a Poisson distribution instead of a random normal distribution (see that Shapiro-Wilk no longer reports normality)
+# high_scores <- rpois(N, lambda = 5) 
+
+# Print scores
+high_scores 
+
+# Now let us perform THREE tests for Normality
 
 # 1. Visual inspection - Histogram
 hist(high_scores)
 # comment - modality, symmetry, skewness
 
-#2. QQ-Plot
+# 2. Visual inspection - QQ-Plot - https://www.statisticshowto.com/q-q-plots/
 qqnorm(high_scores)
 qqline(high_scores)
 
-#3. Shapiro-Wilk - "the test rejects the hypothesis of normality when the p-value is less than or equal to 0.05"
+# 3. Descriptive Statistic - Shapiro-Wilk - "the test rejects the hypothesis of normality when the p-value is less than or equal to 0.05"
 result_sw <- shapiro.test(high_scores)
 result_sw
+
+print(paste("A",result_sw$method, "was conducted on the data."))
+
+# R if else Statement - https://www.datamentor.io/r-programming/if-else-statement
+if(result_sw$p.value < 0.05)
+{
+  print(paste("From the output obtained we can not assume normality as the p-value of", round(result_sw$p.value, 4), "is less than 0.05"))
+} else #note in R we need to put the else as shown (i.e. immediately after the { bracket) and not on a new line (as we can in C, C++, C#)
+{ 
+  print(paste("From the output obtained we can assume normality as the p-value of", round(result_sw$p.value, 4), "is greater than 0.05"))
+}
+
+
+
+
+
+
+
+
 
 
 

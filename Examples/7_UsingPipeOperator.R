@@ -16,6 +16,10 @@ library(magrittr)
 
 # Numeric - Arithmetic operations on numeric data -----------------------
 
+# what is a pipe? An infix operator
+
+
+
 
 
 
@@ -41,7 +45,23 @@ result <- some_data %>%
   `-`(5) %>%      # Subtract a constant (5 in this case)
   `^`(2) %>%      # Square each element
   .[. > 10] %>%   # Filter out values below 10
-  mean()          # Compute the mean
+  mean()
+
+# What about user-defined functions?
+
+SomeTransform <- function(value) {
+  x <- (value - 10)/5
+}
+
+ages <- c(12, 34, 32, 45)
+
+results <- ages %>% SomeTransform()
+
+
+
+
+
+# Compute the mean
 
 print(result)
 

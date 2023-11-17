@@ -3,6 +3,7 @@
 #' @author NMCG
 #' @bugs None
 #' @keywords functions, Roxygen, comments
+#' @seealso https://medium.com/@cselefendi/ternary-operator-in-r-6ad09200caf3
 
 # LinearContrastStretch ------------------------------------------------------------------
 
@@ -30,11 +31,23 @@ LogAbs <- function(x, base){
   return (log(abs(x), base))
 }
 
+# Add ------------------------------------------------------------------
 
 Add <- function(a, b) {
   x <- a + b
 }
 
+# Ternary operator in R ------------------------------------------------------------------
+
+`?` <- function(x, y)
+  eval(
+    sapply(
+      strsplit(
+        deparse(substitute(y)), 
+        ":"
+      ), 
+      function(e) parse(text = e)
+    )[[2 - as.logical(x)]])
 
 
 

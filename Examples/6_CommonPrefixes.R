@@ -17,5 +17,3 @@
 
 #CHANGED (since 2.0) Use SomeFunction instead of... 
 
-q <- qnorm(0.99)
-q

@@ -1,0 +1,67 @@
+---
+title: "Testing for Normality"
+author: "Niall McGuinness"
+date: "2023-11-17"
+output: html_document
+---
+
+
+```{r include=FALSE}
+# Load knitr to allow us to ask for user-input
+if(!require("knitr"))
+   install.packages("knitr")
+library(knitr)
+```
+
+
+## Generate some random data with a Normal Distribtion
+
+```{r}
+
+# Set descriptive statistics for our vector of high scores
+N <- 200
+mn <- 210
+std_dev <- 20
+
+# Randomize the high scores using system time
+set.seed(Sys.time())
+
+# Generate a random Normal distribution of high scores with 99% of players in the range [150, 270] (i.e. 6 sigma or -3xSD on left and +3xSD on right of the mean)
+high_scores <-  rnorm(N, mean = mn, sd = std_dev)
+
+# Try using an Exponential distribution instead of a random normal distribution (see that Shapiro-Wilk no longer reports normality)
+# high_scores <- rexp(N, rate = 0.1)
+
+# Try using a Poisson distribution instead of a random normal distribution (see that Shapiro-Wilk no longer reports normality)
+# high_scores <- rpois(N, lambda = 5) 
+
+# Print scores
+high_scores 
+
+```
+
+## Test for Normality
+
+
+### Visual inspection - Histogram
+
+```{r}
+hist(high_scores)
+# comment - modality, symmetry, skewness
+```
+
+### Visual inspection - QQ-Plot - https://www.statisticshowto.com/q-q-plots/
+```{r}
+qqnorm(high_scores)
+qqline(high_scores)
+```
+
+### Descriptive Statistic - Shapiro-Wilk - "the test rejects the hypothesis of normality when the p-value is less than or equal to 0.05"
+```{r}
+result_sw <- shapiro.test(high_scores)
+result_sw
+p_value <- result_sw$p.value
+is_normal <- p_value > 0.05
+```
+
+A `r result_sw$method` was conducted on the data. From the output obtained we `r if(is_normal){"can"}else{"cannot"}` assume normality as the p-value (p=`r round(p_value, 3)`) is `r if(is_normal){"greater"}else{"less"}` than 0.05.
