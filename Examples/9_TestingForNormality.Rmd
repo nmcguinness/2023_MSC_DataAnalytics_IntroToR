@@ -2,7 +2,13 @@
 title: "Testing for Normality"
 author: "Niall McGuinness"
 date: "2023-11-17"
-output: html_document
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    df_print: paged
+    code_folding: hide
+    theme: cerulean
 ---
 
 
@@ -50,13 +56,19 @@ hist(high_scores)
 # comment - modality, symmetry, skewness
 ```
 
-### Visual inspection - QQ-Plot - https://www.statisticshowto.com/q-q-plots/
+### Visual inspection - QQ-Plot 
+
+See https://www.statisticshowto.com/q-q-plots/
+
 ```{r}
 qqnorm(high_scores)
 qqline(high_scores)
 ```
 
-### Descriptive Statistic - Shapiro-Wilk - "the test rejects the hypothesis of normality when the p-value is less than or equal to 0.05"
+### Descriptive Statistic - Shapiro-Wilk
+
+The null hypothesis of the Shapiro-Wilk test is that the population is **normally** distributed. If the p-value associated with the test is below a chosen significance level (e.g., 0.05), then the null hypothesis is rejected, suggesting that the data does not follow a normal distribution.
+
 ```{r}
 result_sw <- shapiro.test(high_scores)
 result_sw
@@ -64,4 +76,22 @@ p_value <- result_sw$p.value
 is_normal <- p_value > 0.05
 ```
 
-A `r result_sw$method` was conducted on the data. From the output obtained we `r if(is_normal){"can"}else{"cannot"}` assume normality as the p-value (p=`r round(p_value, 3)`) is `r if(is_normal){"greater"}else{"less"}` than 0.05.
+A `r result_sw$method` was conducted on the data. From the output obtained we `r if(is_normal){"can"}else{"cannot"}` assume normality and **accept the null hypothesis** as the p-value (p=`r round(p_value, 3)`) is `r if(is_normal){"greater"}else{"less"}` than 0.05.
+
+
+### Descriptive Statistic - Anderson-Darling
+
+
+```{r}
+if(!require("nortest"))
+  install.packages("nortest")
+library(nortest)
+
+result_ad <- ad.test(high_scores)
+result_ad
+p_value <- result_ad$p.value
+is_normal <- p_value > 0.05
+```
+
+
+An `r result_ad$method` was conducted on the data. From the output obtained we `r if(is_normal){"can"}else{"cannot"}` assume normality and **accept the null hypothesis** as the p-value (p=`r round(p_value, 3)`) is `r if(is_normal){"greater"}else{"less"}` than 0.05.

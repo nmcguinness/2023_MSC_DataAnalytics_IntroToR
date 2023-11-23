@@ -12,7 +12,7 @@ cat("\014")
 # Set descriptive statistics for our vector of high scores
 N <- 200
 mn <- 210
-stdev <- 20
+std_dev <- 20
 
 # Randomize the high scores using system time
 set.seed(Sys.time())
@@ -39,7 +39,7 @@ hist(high_scores)
 qqnorm(high_scores)
 qqline(high_scores)
 
-# 3. Descriptive Statistic - Shapiro-Wilk - "the test rejects the hypothesis of normality when the p-value is less than or equal to 0.05"
+# 3. Descriptive Statistic - Shapiro-Wilk - "The null hypothesis of the Shapiro-Wilk test is that the population is normally distributed. If the p-value associated with the test is below a chosen significance level (e.g., 0.05), then the null hypothesis is rejected, suggesting that the data does not follow a normal distribution."
 result_sw <- shapiro.test(high_scores)
 result_sw
 
@@ -55,7 +55,25 @@ if(result_sw$p.value < 0.05)
 }
 
 
+# 4. Descriptive Statistic - Anderson-Darling
 
+if(!require("nortest"))
+  install.packages("nortest")
+library(nortest)
+
+result_ad <- ad.test(high_scores)
+result_ad
+
+print(paste("A",result_ad$method, "was conducted on the data."))
+
+# R if else Statement - https://www.datamentor.io/r-programming/if-else-statement
+if(result_ad$p.value < 0.05)
+{
+  print(paste("From the output obtained we can not assume normality as the p-value of", round(result_ad$p.value, 4), "is less than 0.05"))
+} else #note in R we need to put the else as shown (i.e. immediately after the { bracket) and not on a new line (as we can in C, C++, C#)
+{ 
+  print(paste("From the output obtained we can assume normality as the p-value of", round(result_ad$p.value, 4), "is greater than 0.05"))
+}
 
 
 
