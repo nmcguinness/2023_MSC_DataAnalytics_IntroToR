@@ -1,4 +1,4 @@
-#' @title 8_TestingForNormality.R
+#' @title 9_TestingForNormality.R
 #' @description Outlining 3 methods for determining normality of numerical data
 #' @author NMCG
 #' @bugs None

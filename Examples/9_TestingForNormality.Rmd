@@ -12,7 +12,7 @@ output:
 ---
 
 
-```{r include=FALSE}
+```{r Load Packages, echo=FALSE}
 # Load knitr to allow us to ask for user-input
 if(!require("knitr"))
    install.packages("knitr")
