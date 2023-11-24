@@ -5,27 +5,45 @@
 #' @keywords CDF
 #' @seealso 
 
-set.seed(456)
+# In this example we generate some randomly distributed float-point values
+# and compare the CDF for this data (blue) to the ideal CDF (red dot) for a sample
+# with the same mean and standard deviation
 
-# ask 100 people to pick a floating-point number from -4 to +4 (i.e. +/- 4 standard devs)
+# Obviously, since both are generated using in-built random functions in R
+# (i.e. rnorm() and pnorm()) then both plots will align as long as the
+# number of samples (n) is large.
+
+set.seed(Sys.time())
+
+# change the number of samples (i.e. people asked) and see how to changes the histogram (in green)
+n = 1000
+
+# ask sample (n) of people to pick a floating-point number from -4 to +4 (i.e. +/- 4 standard devs)
 # yes, I know it's a strange "ask" but think of these values as representing our Tetris game high score that is in the range [150, 270]
-data <- rnorm(100, mean = 0, sd = 1)
+sample_data <- rnorm(n, mean = 0, sd = 1)
 
 # sort the values you get
-sort_data <- sort(data)
+sorted_sample_data <- sort(sample_data)
 
 # what are the sorted set of probablilities of seeing this number or less?
-prob_values <- pnorm(sort_data)
+prob_values_sample_data <- pnorm(sorted_sample_data)
 
 # plot the original number vs the probabilities 
-plot(sort_data, prob_values, type = "l", col = "blue")
+plot(sorted_sample_data, prob_values_sample_data, type = "l", col = "blue",
+     xlab = "Data Values", ylab = "Cumulative Probability",
+     main = "Cumulative Distribution Plot of Sample Data vs Ideal")
 
 # what does the ideal CDF look like (i.e. for an ideally normally distributed set of values in range -4 to +4)? 
 curve(pnorm(x), add = TRUE, col = "red",
       type = "p")
 
 # lets add a histogram of our original random numbers
-lines(density(data), col = "green", lwd= 2)
+lines(density(sample_data), col = "green", lwd= 2)
 
+legend("topleft", legend = c("CDF (Original values)", 
+                             "CDF (Ideal normal distribution)", 
+                             "Histogram (original value"), 
+                              col = c("blue", "red", "green"), 
+                              lwd = 2, bty = "n")
 
 
