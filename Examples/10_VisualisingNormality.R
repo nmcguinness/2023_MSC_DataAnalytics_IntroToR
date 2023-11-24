@@ -7,7 +7,8 @@
 
 set.seed(456)
 
-# ask 100 people to pick a number from -4 to +4 (i.e. +/- 4 standard devs)
+# ask 100 people to pick a floating-point number from -4 to +4 (i.e. +/- 4 standard devs)
+# yes, I know it's a strange "ask" but think of these values as representing our Tetris game high score that is in the range [150, 270]
 data <- rnorm(100, mean = 0, sd = 1)
 
 # sort the values you get
