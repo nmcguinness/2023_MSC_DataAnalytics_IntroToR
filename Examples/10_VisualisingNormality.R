@@ -5,6 +5,15 @@
 #' @keywords CDF
 #' @seealso 
 
+# A Cumulative Density Function (CDF) is a mathematical function that 
+# describes the probability that a random variable takes on a value less 
+# than or equal to a given point. In the context of a normal distribution, 
+# the CDF provides the probability that a variable from that distribution 
+# is less than or equal to a specific value. It essentially gives the 
+# cumulative probability up to a certain point in the distribution, 
+# offering insights into the likelihood of observing a numeric value 
+# within the distribution.
+
 # In this example we generate some randomly distributed float-point values
 # and compare the CDF for this data (blue) to the ideal CDF (red dot) for a sample
 # with the same mean and standard deviation
