@@ -13,6 +13,10 @@
 # (i.e. rnorm() and pnorm()) then both plots will align as long as the
 # number of samples (n) is large.
 
+# clear any old output
+cat("\014")
+
+# randomise each run using system time
 set.seed(Sys.time())
 
 # change the number of samples (i.e. people asked) and see how to changes the histogram (in green)
