@@ -2,5 +2,7 @@
 #' @description Using R packages to explore and plot data
 #' @author NMCG
 #' @bugs None
-#' @keywords pacman, esquisse
+#' @keywords tidyverse, ggplot2, esquisse
+
+
 
